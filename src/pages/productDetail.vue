@@ -10,19 +10,15 @@
         <p class="headline" style="width:30%;">{{ product.price }}円</p>
         <p class="headline" style="width:70%;">
           数量：
-          <v-btn icon @click="countMinus">
-            <v-icon class="counter">fa-minus-circle</v-icon>
-          </v-btn>
-          <span>{{ count }}</span>
-          <v-btn icon @click="countPlus">
-            <v-icon class="counter">fa-plus-circle</v-icon>
-          </v-btn>
+          <Counter
+            @on-minus="countMinus"
+            @on-plus="countPlus"
+          >{{ count }}</Counter>
         </p>
       </div>
-      <v-btn block large class="cart-btn">
-        <v-icon class="cart-icon">fa-shopping-cart</v-icon>
-        カートに入れる
-      </v-btn>
+      <CartButton
+        @on-clicked="addToCart"
+      > </CartButton>
       <p>{{ product.description }}</p>
       <p>出品URL：{{ product.url }}</p>
     </div>
@@ -30,27 +26,26 @@
 </template>
 
 <script>
+  const moment = require('moment')
+  import axios from 'axios'
+  import CartButton from '../components/CartButton'
+  import Counter from '../components/Counter'
+
   export default {
     name: 'ProductDetail',
+    components: {
+      CartButton,
+      Counter,
+    },
     props: {
-      product: {
-        type: Object,
-        default: () => {
-          return {
-            name: 'Dr Pepper',
-            description: 'ドドクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパードクターペッパークターペッパー',
-            url: 'dokupe.yahoo.jp',
-            imageUrl: 'hogw',
-            thumbnailUrl: 'hogeho',
-            price: 100,
-          }
-        }
-      }
+      janCode: String,
     },
     data () {
       return {
+        product: {},
+        appId: 'dj00aiZpPUQ4RTBUUTVSNUs3TyZzPWNvbnN1bWVyc2VjcmV0Jng9NTI-',
+        apiUrl: 'https://shopping.yahooapis.jp/ShoppingWebService/V1/json/itemSearch',
         count: 1,
-        maxCount: 99,
       }
     },
     computed: {
@@ -59,17 +54,47 @@
       }
     },
     methods: {
-      countPlus () {
-        if (this.count <= this.maxCount) {
-          this.count++
-        }
+      searchProduct () {
+        axios.get(this.apiUrl, {
+          params: {
+            appid: this.appId,
+            jan: this.janCode,
+          }
+        })
+        .then((res) => {
+          console.log(res)
+          const resultData = res.data.ResultSet[0].Result[0]
+          this.product = {
+            name: resultData.Name,
+            description: resultData.Description,
+            url: resultData.Url,
+            imageUrl: resultData.Image.Medium,
+            thumbnailUrl: resultData.Image.Small,
+            price: resultData.Price._value,
+            janCode: resultData.JanCode,
+          }
+        })
       },
       countMinus () {
-        if (this.count > 1) {
-          this.count--
-        }
+        this.count--
+      },
+      countPlus () {
+        this.count++
+      },
+      addToCart () {
+        firebase.database().ref('/cart_list/').push({
+          name: this.product.name,
+          price: this.product.price,
+          thumbnailUrl: this.product.thumbnailUrl,
+          janCode: this.product.janCode,
+          count: this.count,
+          addedAt: moment().format('YYYY/MM/DD HH:mm'),
+        })
       },
     },
+    mounted () {
+      this.searchProduct()
+    }
   }
 </script>
 
@@ -89,12 +114,6 @@
   }
   .price-content {
     width: 50%;
-  }
-  .counter {
-    padding-bottom: 2px;
-  }
-  .cart-btn {
-    font-size: 4vw;
   }
   .cart-icon {
     font-size: 7vw;

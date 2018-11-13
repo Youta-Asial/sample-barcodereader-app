@@ -1,0 +1,84 @@
+<template>
+  <v-content>
+    <v-toolbar></v-toolbar>
+    <div class="cart-list-container">
+      <v-list two-line>
+        <v-list-tile
+          v-for="(val, key) in cartList"
+          :key="key"
+        >
+          <v-list-tile-action>
+            <img
+              :src="val.thumbnailUrl"
+              class="thumbnail-image"
+              @click="goToProductDetail(val.janCode)"
+            >
+          </v-list-tile-action>
+          <v-list-tile-content class="cart-item-container">
+            <v-list-tile-title>{{ val.name }}</v-list-tile-title>
+            <v-list-tile-sub-title style="text-align:right;font-size:5vw;">
+              <span>{{ val.price }}円</span>
+              <Counter
+                @on-minus="countMinus(key)"
+                @on-plus="countPlus(key)"
+              >{{ val.count }}</Counter>
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-btn block large>注文へ進む</v-btn>
+    </div>
+  </v-content>
+</template>
+
+<script>
+  import Counter from '../components/Counter'
+
+  export default {
+    name: 'CartList',
+    components: {
+      Counter,
+    },
+    data () {
+      return {
+        cartList: {},
+      }
+    },
+    methods: {
+      countMinus (key) {
+        this.cartList[key].count--
+        this.updateCount(key)
+      },
+      countPlus (key) {
+        this.cartList[key].count++
+        this.updateCount(key)
+      },
+      updateCount (key) {
+        console.log(this.cartList[key].count)
+        firebase.database().ref(`/cart_list/${key}/`).update({
+          count: this.cartList[key].count
+        })
+      },
+      goToProductDetail (janCode) {
+        this.$router.push({
+          name: 'product_detail',
+          params: { janCode: janCode }
+        })
+      }
+    },
+    mounted () {
+      firebase.database().ref('/cart_list/').on('value', (ss) => {
+        this.cartList = ss.val()
+      })
+    }
+  }
+</script>
+
+<style scoped>
+  .thumbnail-image {
+    width: 16vw;
+  }
+  .cart-item-container {
+    margin-left: 4vw;
+  }
+</style>

@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
-
 import App from './App.vue';
 import TopMenu from './pages/topMenu.vue'
 import ProductDetail from './pages/productDetail.vue'
+import CartList from './pages/cartList.vue'
 
 // Initialize Firebase
 var config = {
@@ -37,6 +37,7 @@ const router = new VueRouter({
   routes: [
     { path: '/', name: 'topmenu', component: TopMenu },
     { path: '/product_detail/', name: 'product_detail', component: ProductDetail, props: true },
+    { path: '/cart_list/', name: 'cart_list', component: CartList },
   ]
 })
 
