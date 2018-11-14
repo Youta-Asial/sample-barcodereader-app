@@ -1,6 +1,8 @@
 <template>
   <v-content>
-    <v-toolbar></v-toolbar>
+    <Header>
+      <template slot="title">商品検索アプリ</template>
+    </Header>
       <Scanner
         @scan-completed="goToProductDetail"
       ></Scanner>
@@ -19,12 +21,14 @@
 <script>
   import Scanner from '../components/Scanner'
   import TopMenuButton from '../components/TopMenuButton'
+  import Header from '../components/Header'
 
   export default{
     name: 'TopMenu',
     components: {
       Scanner,
       TopMenuButton,
+      Header,
     },
     methods: {
       goToProductDetail (janCode) {

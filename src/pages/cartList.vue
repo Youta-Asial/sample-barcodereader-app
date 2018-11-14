@@ -1,6 +1,9 @@
 <template>
   <v-content>
-    <v-toolbar></v-toolbar>
+    <Header>
+      <v-btn icon class="header-icon" slot="navi" @click="backToTopMenu"><v-icon>fa-arrow-left</v-icon></v-btn>
+      <template slot="title">カート一覧</template>
+    </Header>
     <div class="cart-list-container">
       <v-list two-line>
         <v-list-tile
@@ -11,7 +14,7 @@
             <img
               :src="val.thumbnailUrl"
               class="thumbnail-image"
-              @click="goToProductDetail(val.janCode)"
+              @click="goToProductDetail(val.janCode, val.count, val.addedAt)"
             >
           </v-list-tile-action>
           <v-list-tile-content class="cart-item-container">
@@ -33,11 +36,13 @@
 
 <script>
   import Counter from '../components/Counter'
+  import Header from '../components/Header'
 
   export default {
     name: 'CartList',
     components: {
       Counter,
+      Header,
     },
     data () {
       return {
@@ -59,12 +64,19 @@
           count: this.cartList[key].count
         })
       },
-      goToProductDetail (janCode) {
+      goToProductDetail (janCode, count, addedAt) {
         this.$router.push({
           name: 'product_detail',
-          params: { janCode: janCode }
+          params: {
+            janCode: janCode,
+            countInCart: count,
+            addedAt: addedAt,
+          }
         })
-      }
+      },
+      backToTopMenu () {
+        this.$router.push({ name: 'topmenu' })
+      },
     },
     mounted () {
       firebase.database().ref('/cart_list/').on('value', (ss) => {

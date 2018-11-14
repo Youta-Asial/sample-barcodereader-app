@@ -1,6 +1,9 @@
 <template>
   <v-content>
-    <v-toolbar></v-toolbar>
+    <Header>
+      <v-btn icon class="header-icon" slot="navi" @click="backToTopMenu"><v-icon>fa-arrow-left</v-icon></v-btn>
+      <template slot="title">商品詳細</template>
+    </Header>
     <div class="detail-container">
       <h1 class="display-2">{{ product.name }}</h1>
       <div class="image-container">
@@ -16,11 +19,12 @@
           >{{ count }}</Counter>
         </p>
       </div>
+      <p v-if="countInCart" style="color:tomato">現在{{ countInCart }}個がカートに入っています。（{{ addedAt }}）</p>
       <CartButton
         @on-clicked="addToCart"
       > </CartButton>
       <p>{{ product.description }}</p>
-      <p>出品URL：{{ product.url }}</p>
+      <a :href="product.url">出品URL：{{ product.url }}</a>
     </div>
   </v-content>
 </template>
@@ -30,15 +34,19 @@
   import axios from 'axios'
   import CartButton from '../components/CartButton'
   import Counter from '../components/Counter'
+  import Header from '../components/Header'
 
   export default {
     name: 'ProductDetail',
     components: {
       CartButton,
       Counter,
+      Header,
     },
     props: {
       janCode: String,
+      countInCart: Number,
+      addedAt: String,
     },
     data () {
       return {
@@ -62,7 +70,8 @@
           }
         })
         .then((res) => {
-          console.log(res)
+          if (res.Error) throw new Error(res.Error.Message)
+
           const resultData = res.data.ResultSet[0].Result[0]
           this.product = {
             name: resultData.Name,
@@ -73,6 +82,10 @@
             price: resultData.Price._value,
             janCode: resultData.JanCode,
           }
+        })
+        .catch((e) => {
+          alert('Error: ' + e)
+          this.$router.push({ name: 'topmenu' })
         })
       },
       countMinus () {
@@ -90,6 +103,12 @@
           count: this.count,
           addedAt: moment().format('YYYY/MM/DD HH:mm'),
         })
+        .then(() => {
+          this.$router.push({ name: 'cart_list' })
+        })
+      },
+      backToTopMenu () {
+        this.$router.push({ name: 'topmenu' })
       },
     },
     mounted () {
