@@ -8,6 +8,7 @@ import TopMenu from './pages/topMenu.vue'
 import ProductDetail from './pages/productDetail.vue'
 import CartList from './pages/cartList.vue'
 
+// Firenbaseの初期化
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyDPb8R-aWHkcbYVE41JcDw9M5iCk4uhQB8",
@@ -19,6 +20,8 @@ var config = {
 }
 firebase.initializeApp(config);
 
+// Vuetifyの初期化
+// Initialize Vuetify
 Vue.use(Vuetify, {
   theme: {
     primary: "#4DB6AC",
@@ -32,6 +35,8 @@ Vue.use(Vuetify, {
   iconfont: 'fa',
 })
 
+// Vue Routerの初期化
+// Initialize Vue Router
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [

@@ -47,22 +47,25 @@
     data () {
       return {
         cartList: {},
+        maxCount: 99,
+        minCount: 1,
       }
     },
     methods: {
       countMinus (key) {
-        if (this.cartList[key].count - 1 > 0) {
+        if (this.cartList[key].count - 1 >= this.minCount) {
           this.cartList[key].count--
           this.updateCount(key)
         }
       },
       countPlus (key) {
-        if (this.cartList[key].count + 1 < 100) {
+        if (this.cartList[key].count + 1 <= this.maxCount) {
           this.cartList[key].count++
           this.updateCount(key)
         }
       },
       updateCount (key) {
+        // データベースアクセス
         firebase.database().ref(`/cart_list/${key}/`).update({
           count: this.cartList[key].count
         })
@@ -81,6 +84,7 @@
         this.$router.push({ name: 'topmenu' })
       },
       order () {
+        // TODO: アラートを出すだけ、機能未実装
         let message = ''
         let sum = 0
         for (let key in this.cartList) {

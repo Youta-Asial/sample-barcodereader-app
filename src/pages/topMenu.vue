@@ -11,6 +11,7 @@
         label="カート一覧"
         @on-clicked="goToCartList"
       ></TopMenuButton>
+      <!-- TODO: 注文機能・注文履歴機能は未実装 -->
       <TopMenuButton
         icon="fa-history"
         label="注文履歴"

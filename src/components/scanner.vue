@@ -21,16 +21,17 @@
     },
     methods: {
       scanBarcode () {
-        window.plugins.barcodeScanner.scan(
-          this.scanSuccess,
-          function(error) {
-            alert("Scanning failed: " + error);
-          })
+        // プラグインを使ってバーコードを読み取る
+        window.plugins.barcodeScanner.scan(this.scanSuccess, this.scanFail)
       },
       scanSuccess (result) {
-        console.log('scan success!')
+        // 読み取り成功時に呼び出される
         this.$emit('scan-completed', result.text)
       },
+      scanFail (error) {
+        // 読み取り失敗時に呼び出される
+        alert("Scanning failed: " + error);
+      }
     }
   }
 </script>

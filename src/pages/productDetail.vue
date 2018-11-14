@@ -63,6 +63,7 @@
     },
     methods: {
       searchProduct () {
+        // Yahoo!商品検索APIを使用して、JANコードを条件に検索結果のトップを取得する
         axios.get(this.apiUrl, {
           params: {
             appid: this.appId,
@@ -99,6 +100,7 @@
         }
       },
       addToCart () {
+        // データベースアクセス
         firebase.database().ref('/cart_list/').push({
           name: this.product.name,
           price: this.product.price,
