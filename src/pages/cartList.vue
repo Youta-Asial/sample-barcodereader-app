@@ -29,7 +29,7 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <v-btn block large>注文へ進む</v-btn>
+      <v-btn block large @click="order">注文へ進む</v-btn>
     </div>
   </v-content>
 </template>
@@ -51,15 +51,18 @@
     },
     methods: {
       countMinus (key) {
-        this.cartList[key].count--
-        this.updateCount(key)
+        if (this.cartList[key].count - 1 > 0) {
+          this.cartList[key].count--
+          this.updateCount(key)
+        }
       },
       countPlus (key) {
-        this.cartList[key].count++
-        this.updateCount(key)
+        if (this.cartList[key].count + 1 < 100) {
+          this.cartList[key].count++
+          this.updateCount(key)
+        }
       },
       updateCount (key) {
-        console.log(this.cartList[key].count)
         firebase.database().ref(`/cart_list/${key}/`).update({
           count: this.cartList[key].count
         })
@@ -77,6 +80,16 @@
       backToTopMenu () {
         this.$router.push({ name: 'topmenu' })
       },
+      order () {
+        let message = ''
+        let sum = 0
+        for (let key in this.cartList) {
+          const item = this.cartList[key]
+          sum += item.price * item.count
+          message += `${item.name}×${item.count}個(${item.price * item.count}円)` + '\n'
+        }
+        alert(`${message}以上を注文します。（小計：${sum}円）`)
+      }
     },
     mounted () {
       firebase.database().ref('/cart_list/').on('value', (ss) => {

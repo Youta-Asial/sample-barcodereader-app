@@ -13,12 +13,6 @@
 <script>
   export default {
     name: 'Counter',
-    data () {
-      return {
-        min: 1,
-        max: 99,
-      }
-    },
     methods: {
       minus () {
         this.$emit('on-minus')

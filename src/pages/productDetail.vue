@@ -84,15 +84,19 @@
           }
         })
         .catch((e) => {
-          alert('Error: ' + e)
+          alert(e)
           this.$router.push({ name: 'topmenu' })
         })
       },
       countMinus () {
-        this.count--
+        if (this.count - 1 > 0) {
+          this.count--
+        }
       },
       countPlus () {
-        this.count++
+        if (this.count + 1 < 100) {
+          this.count++
+        }
       },
       addToCart () {
         firebase.database().ref('/cart_list/').push({
