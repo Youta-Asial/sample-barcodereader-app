@@ -8,7 +8,7 @@
       ></Scanner>
       <TopMenuButton
         icon="fa-shopping-cart"
-        label="カート"
+        label="カート一覧"
         @on-clicked="goToCartList"
       ></TopMenuButton>
       <TopMenuButton
