@@ -18,16 +18,17 @@
 <style>
   .top-menu-btn {
     margin: 5vw 10vw;
-    width: 80vw;
-    height: 32vw;
+    width: 80%;
+    height: 26%;
   }
   .top-menu-btn-icon {
-    font-size: 20vw;
-    width: 40%;
+    font-size: 16vw;
+    width: 30%;
   }
   .top-menu-btn-text {
     text-align: left;
-    width: 60%;
+    width: 70%;
     font-size: 5vw;
+    margin-left: 10px;
   }
 </style>

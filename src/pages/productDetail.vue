@@ -19,7 +19,7 @@
           >{{ count }}</Counter>
         </p>
       </div>
-      <p v-if="countInCart" style="color:tomato">{{ $t('cart_status', { countInCart: countInCart, addedAt: addedAt }) }}</p>
+      <p v-if="countInCart" style="color:tomato">{{ $t('product_detail.cart_status', { countInCart: countInCart, addedAt: addedAt }) }}</p>
       <CartButton
         @on-clicked="addToCart"
       > </CartButton>

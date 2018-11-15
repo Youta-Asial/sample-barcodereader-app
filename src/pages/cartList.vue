@@ -19,7 +19,7 @@
           </v-list-tile-action>
           <v-list-tile-content class="cart-item-container">
             <v-list-tile-title>{{ val.name }}</v-list-tile-title>
-            <v-list-tile-sub-title style="text-align:right;font-size:5vw;">
+            <v-list-tile-sub-title class="cart-item-subtitle">
               <span>{{ $t('cart_list.price_yen', { price: val.price }) }}円</span>
               <Counter
                 @on-minus="countMinus(key)"
@@ -105,9 +105,13 @@
 
 <style scoped>
   .thumbnail-image {
-    width: 16vw;
+    width: 64px;
   }
   .cart-item-container {
     margin-left: 4vw;
+  }
+  .cart-item-subtitle {
+    text-align: right;
+    font-size: 20px;
   }
 </style>

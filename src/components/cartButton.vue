@@ -13,6 +13,6 @@
 
 <style scoped>
   .cart-btn {
-    font-size: 4vw;
+    font-size: 16px;
   }
 </style>
