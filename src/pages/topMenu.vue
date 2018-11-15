@@ -1,20 +1,20 @@
 <template>
   <v-content>
     <Header>
-      <template slot="title">商品検索アプリ</template>
+      <template slot="title">{{ $t('topmenu.title') }}</template>
     </Header>
       <Scanner
         @scan-completed="goToProductDetail"
       ></Scanner>
       <TopMenuButton
         icon="fa-shopping-cart"
-        label="カート一覧"
+        :label="$t('cart_list.title')"
         @on-clicked="goToCartList"
       ></TopMenuButton>
       <!-- TODO: 注文機能・注文履歴機能は未実装 -->
       <TopMenuButton
         icon="fa-history"
-        label="注文履歴"
+        :label="$t('purchase_history.title')"
         @on-clicked=""
       ></TopMenuButton>
   </v-content>

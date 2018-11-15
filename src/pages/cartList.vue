@@ -2,7 +2,7 @@
   <v-content>
     <Header>
       <v-btn icon class="header-icon" slot="navi" @click="backToTopMenu"><v-icon>fa-arrow-left</v-icon></v-btn>
-      <template slot="title">カート一覧</template>
+      <template slot="title">{{ $t('cart_list.title') }}</template>
     </Header>
     <div class="cart-list-container">
       <v-list two-line>
@@ -20,7 +20,7 @@
           <v-list-tile-content class="cart-item-container">
             <v-list-tile-title>{{ val.name }}</v-list-tile-title>
             <v-list-tile-sub-title style="text-align:right;font-size:5vw;">
-              <span>{{ val.price }}円</span>
+              <span>{{ $t('cart_list.price_yen', { price: val.price }) }}円</span>
               <Counter
                 @on-minus="countMinus(key)"
                 @on-plus="countPlus(key)"
@@ -29,7 +29,7 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-      <v-btn block large @click="order">注文へ進む</v-btn>
+      <v-btn block large @click="order">{{ $t('cart_list.goto_order') }}</v-btn>
     </div>
   </v-content>
 </template>

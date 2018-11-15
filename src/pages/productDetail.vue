@@ -2,29 +2,29 @@
   <v-content>
     <Header>
       <v-btn icon class="header-icon" slot="navi" @click="backToTopMenu"><v-icon>fa-arrow-left</v-icon></v-btn>
-      <template slot="title">商品詳細</template>
+      <template slot="title">{{ $t('product_detail.title') }}</template>
     </Header>
     <div class="detail-container">
       <h1 class="display-2">{{ product.name }}</h1>
       <div class="image-container">
-        <img :src="product.imageUrl" alt="商品画像" class="mainImage">
+        <img :src="product.imageUrl" :alt="$t('product_detail.image')" class="mainImage">
       </div>
       <div class="price-container">
         <p class="headline" style="width:30%;">{{ product.price }}円</p>
         <p class="headline" style="width:70%;">
-          数量：
+          {{ $t('product_detail.count') }}
           <Counter
             @on-minus="countMinus"
             @on-plus="countPlus"
           >{{ count }}</Counter>
         </p>
       </div>
-      <p v-if="countInCart" style="color:tomato">現在{{ countInCart }}個がカートに入っています。（{{ addedAt }}）</p>
+      <p v-if="countInCart" style="color:tomato">{{ $t('cart_status', { countInCart: countInCart, addedAt: addedAt }) }}</p>
       <CartButton
         @on-clicked="addToCart"
       > </CartButton>
       <p>{{ product.description }}</p>
-      <a :href="product.url">出品URL：{{ product.url }}</a>
+      <a :href="product.url">{{ $t('product_detail.exhibit_url', { url: product.url }) }}</a>
     </div>
   </v-content>
 </template>

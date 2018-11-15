@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router'
 import Vuetify from 'vuetify'
+import i18n from './i18n'
 import 'vuetify/dist/vuetify.min.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import App from './App.vue';
@@ -51,4 +52,5 @@ new Vue({
   template:'<app></app>',
   components: { App },
   router,
+  i18n,
 });

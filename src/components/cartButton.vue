@@ -1,7 +1,7 @@
 <template>
   <v-btn block large @click="$emit('on-clicked')" class="cart-btn">
     <v-icon class="cart-icon">fa-shopping-cart</v-icon>
-    カートに入れる
+    {{ $t('product_detail.addto_cart') }}
   </v-btn>
 </template>
 
