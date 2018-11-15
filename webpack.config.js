@@ -96,7 +96,8 @@ let webpackConfig = {
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json-loader',
+        type: 'javascript/auto'
       }
     ]
   },

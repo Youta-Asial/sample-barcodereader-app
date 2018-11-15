@@ -1,7 +1,7 @@
 <template>
   <TopMenuButton
     icon="fa-barcode"
-    label="バーコードスキャン"
+    :label="$t('scan_barcode.title')"
     @on-clicked="scanBarcode"
   ></TopMenuButton>
 </template>
